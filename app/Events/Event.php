@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace CookieSoftCommerce\Events;
 
 abstract class Event
 {
