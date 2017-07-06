@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <h1>Create Product</h1>
 
         @if($errors->any())
@@ -13,6 +13,11 @@
         @endif
 
         {!! Form::open(['route'=> 'products.store']) !!}
+
+        <div class="form-group">
+            {!! Form::label('category','Category:') !!}
+            {!! Form::select('category_id', $categories, null, ['class'=>'form-control']) !!}
+        </div>
 
         <div class="form-group">
             {!! Form::label('name','Name:') !!}

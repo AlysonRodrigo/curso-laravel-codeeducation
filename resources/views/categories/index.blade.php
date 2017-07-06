@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <h1>Categories</h1>
 
         <br/>
@@ -29,6 +29,8 @@
             </tr>
             @endforeach
         </table>
+
+        {!! $categories->render() !!}
     </div>
 
 

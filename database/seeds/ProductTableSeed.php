@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Seeder;
+use CookieSoftCommerce\Product;
+use Faker\Factory as Faker;
+
+class ProductTableSeed extends Seeder
+{
+
+    public function run()
+    {
+        DB::table('products')->truncate();
+
+        $faker = Faker::create();
+
+        foreach (range(1,40) as $i){
+
+            Product::create([
+                'name' => $faker->word(),
+                'description' => $faker->sentence(),
+                'price' => $faker->randomNumber(2),
+                'category_id' => $faker->numberBetween(1,15)
+            ]);
+        }
+
+
+
+
+    }
+
+
+}

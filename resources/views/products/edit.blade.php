@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <h1>Edit product: {{ $product->name }}</h1>
 
         @if($errors->any())
@@ -14,6 +14,11 @@
 
         {!! Form::open(['route'=> ['products.update',$product->id],'method' => 'post']) !!}
 
+
+        <div class="form-group">
+            {!! Form::label('category','Category:') !!}
+            {!! Form::select('category_id', $categories, $product->category->id, ['class'=>'form-control']) !!}
+        </div>
 
         <div class="form-group">
             {!! Form::label('name','Name:') !!}

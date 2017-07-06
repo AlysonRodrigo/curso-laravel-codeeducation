@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <h1>Edit category: {{ $category->name }}</h1>
 
         @if($errors->any())
