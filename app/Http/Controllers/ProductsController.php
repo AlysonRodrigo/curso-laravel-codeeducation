@@ -5,7 +5,10 @@ namespace CookieSoftCommerce\Http\Controllers;
 use CookieSoftCommerce\Category;
 use CookieSoftCommerce\Http\Requests;
 use CookieSoftCommerce\Product;
-use Illuminate\Support\Facades\Request;
+use CookieSoftCommerce\ProductImage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -108,8 +111,41 @@ class ProductsController extends Controller
         return view('products.create_image',compact('product'));
     }
 
-    public function storeImage(Request $request, $id){
+    public function storeImage(Requests\ProductImageRequest $request, $id, ProductImage $productImage){
 
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+
+        $image = $productImage::create(['product_id'=>$id,'extension'=>$extension]);
+
+        // Public local Storage para adicionar
+        //Storage::disk('public_local')->put($image->id.'.'.$extension, File::get($file));
+
+        // S3 Storage para adicionar
+        Storage::disk('s3')->put($image->id.'.'.$extension, File::get($file));
+        return redirect()->route('products.images',['id' => $id]);
+
+    }
+
+    public function destroyImage(ProductImage $productImage, $id)
+    {
+        $image = $productImage->find($id);
+
+        /** Public Local Storage para delete
+        if(file_exists(public_path() . '/uploads/'.$image->id.'.'.$image->extension)){
+            Storage::disk('public_local')->delete($image->id.'.'.$image->extension);
+        }
+        **/
+
+        // S3 Local Storage para delete
+        if(Storage::disk('s3')->exists($image->id.'.'.$image->extension)){
+            Storage::disk('s3')->delete($image->id.'.'.$image->extension);
+        }
+
+        $product = $image->product;
+        $image->delete();
+
+        return redirect()->route('products.images',['id' => $product->id]);
     }
 
 

@@ -48,6 +48,11 @@ return [
             'root'   => storage_path('app'),
         ],
 
+        'public_local' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/uploads',
+        ],
+
         'ftp' => [
             'driver'   => 'ftp',
             'host'     => 'ftp.example.com',
@@ -64,10 +69,10 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key'    => 'your-key',
-            'secret' => 'your-secret',
-            'region' => 'your-region',
-            'bucket' => 'your-bucket',
+            'key'    => 'AKIAJLO7FM36SQW35V4A',
+            'secret' => 'gLwnx/Wigbk8xNgXnP5oLuCmiNGsR4NLlgt+5QgO',
+            'region' => 'us-west-2',
+            'bucket' => 'bucket-curso-laravel',
         ],
 
         'rackspace' => [

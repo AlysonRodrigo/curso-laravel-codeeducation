@@ -4,7 +4,7 @@ namespace CookieSoftCommerce\Http\Requests;
 
 use CookieSoftCommerce\Http\Requests\Request;
 
-class CategoryRequest extends Request
+class ProductImageRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,18 +24,7 @@ class CategoryRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|max:60',
-            'description' => 'required'
+            'image' => 'image'
         ];
     }
-
-    public function messages()
-    {
-        return [
-            'name.required' => 'O campo nome é obrigatorio',
-            'description.required' => 'A descricao é obrigatoria'
-        ];
-    }
-
-
 }
