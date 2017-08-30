@@ -1,7 +1,7 @@
 <?php
 
 
-Route::group(['prefix' => 'admin', 'where' => ['id' => '[0-9]+']], function (){
+Route::group(['prefix' => 'admin', 'where' => ['id' => '[0-9]+'], 'middleware' => 'auth'], function (){
 
 
     Route::group(['prefix' => 'categories'], function(){
@@ -37,4 +37,4 @@ Route::group(['prefix' => 'admin', 'where' => ['id' => '[0-9]+']], function (){
 
 });
 
-Route::get('/', "WelcomeController@index");
+Route::get('/', "StoreController@index");

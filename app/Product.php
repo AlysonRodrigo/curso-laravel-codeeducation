@@ -24,5 +24,13 @@ class Product extends Model
        return $this->belongsTo('CookieSoftCommerce\Category','category_id');
     }
 
+    public function tags(){
+        return $this->belongsToMany('CookieSoftCommerce\Tag');
+    }
+
+    public function scopeFeatured($query){
+        return $query->where('featured','=',1);
+    }
+
 
 }

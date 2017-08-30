@@ -12,6 +12,6 @@ class ProductImage extends Model
     ];
 
     public function product(){
-        return $this->belongsTo('CookieSoftCommerce\Product','product_id');
+        return $this->belongsTo('CookieSoftCommerce\Product');
     }
 }

@@ -6,6 +6,7 @@ use CookieSoftCommerce\Category;
 use CookieSoftCommerce\Http\Requests;
 use CookieSoftCommerce\Product;
 use CookieSoftCommerce\ProductImage;
+use CookieSoftCommerce\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -51,15 +52,30 @@ class ProductsController extends Controller
      */
     public function store(Requests\ProductRequest $request){
 
-        $input = $request->all();
-        $input['featured'] =  $request->get('featured') ? true : false;
-        $input['recommend'] = $request->get('recommend') ? true : false;
+        $inputTags = explode(',',$request->get('tags'));
 
-        $product = $this->productModel->fill($input);
-
+        $product = $this->productModel->fill($request->all());
         $product->save();
 
+        $this->storeTag($inputTags,$product->id);
+
         return redirect()->route('products');
+    }
+
+    private function storeTag($inputTags,$id)
+    {
+        $tag = new Tag();
+
+        $countTags = count($inputTags);
+
+        foreach ($inputTags as $key => $value) {
+            $newTag = $tag->firstOrCreate(["name" => trim($value)]);
+            $idTags[] = $newTag->id;
+        }
+
+        $product = $this->productModel->find($id);
+        $product->tags()->sync($idTags);
+
     }
 
     /**
@@ -69,11 +85,12 @@ class ProductsController extends Controller
      */
     public function edit($id, Category $category){
 
+        $product = $this->productModel->find($id);
         $categories = $category->lists('name','id');
 
-        $product = $this->productModel->find($id);
+        $tags = implode(',', $product->tags()->lists('name')->toArray());
 
-        return view('products.edit',compact('product','categories'));
+        return view('products.edit',compact('product','categories', 'tags'));
     }
 
     /**
@@ -83,8 +100,10 @@ class ProductsController extends Controller
      */
     public function update(Requests\ProductRequest $request, $id){
 
-        $this->productModel->find($id)->update($request->all());
+        $inputTags = explode(",", $request->get('tags'));
 
+        $this->productModel->find($id)->update($request->all());
+        $this->storeTag($inputTags,$id);
         return redirect()->route('products');
     }
 
@@ -119,10 +138,10 @@ class ProductsController extends Controller
         $image = $productImage::create(['product_id'=>$id,'extension'=>$extension]);
 
         // Public local Storage para adicionar
-        //Storage::disk('public_local')->put($image->id.'.'.$extension, File::get($file));
+        Storage::disk('public_local')->put($image->id.'.'.$extension, File::get($file));
 
         // S3 Storage para adicionar
-        Storage::disk('s3')->put($image->id.'.'.$extension, File::get($file));
+        //Storage::disk('s3')->put($image->id.'.'.$extension, File::get($file));
         return redirect()->route('products.images',['id' => $id]);
 
     }
@@ -131,16 +150,17 @@ class ProductsController extends Controller
     {
         $image = $productImage->find($id);
 
-        /** Public Local Storage para delete
+        // Public Local Storage para delete
         if(file_exists(public_path() . '/uploads/'.$image->id.'.'.$image->extension)){
             Storage::disk('public_local')->delete($image->id.'.'.$image->extension);
         }
-        **/
 
-        // S3 Local Storage para delete
+
+        /** S3 Local Storage para delete
         if(Storage::disk('s3')->exists($image->id.'.'.$image->extension)){
             Storage::disk('s3')->delete($image->id.'.'.$image->extension);
         }
+         **/
 
         $product = $image->product;
         $image->delete();

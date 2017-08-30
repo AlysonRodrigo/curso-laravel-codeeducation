@@ -21,7 +21,7 @@
             <tr>
                 <td>{{ $image->id }}</td>
                 <td>
-                    <img src="{{ url('https://s3-us-west-2.amazonaws.com/bucket-curso-laravel/'.$image->id.'.'.$image->extension) }}" width="100px" />
+                    <img src="{{ url('/uploads/'.$image->id.'.'.$image->extension) }}" width="100px" />
                 </td>
                 <td>{{ $image->extension }}</td>
                 <td>

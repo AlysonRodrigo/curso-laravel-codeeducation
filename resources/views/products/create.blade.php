@@ -35,18 +35,19 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('featured','Feature:') !!}
-            {!! Form::radio('featured', 'Sim',true) !!}
-            {!! Form::radio('featured', 'Não',false) !!}
+            {!! Form::label('featured', 'Destaque:') !!}
+            {!! Form::select('featured', ['0' => 'Não', '1' => 'Sim'], '0') !!}
         </div>
 
         <div class="form-group">
-            {!! Form::label('recommend','Recommend:') !!}
-            {!! Form::radio('recommend', 'Sim',true) !!}
-            {!! Form::radio('recommend', 'Não',false) !!}
+            {!! Form::label('recommended', 'Recomendado:') !!}
+            {!! Form::select('recommended', ['0' => 'Não', '1' => 'Sim'], '0') !!}
         </div>
 
-
+        <div class="form-group">
+            {!! Form::label('tags','Tags:') !!}
+            {!! Form::text('tags', null, ['class'=>'form-control','placeholder' => 'Tags']) !!}
+        </div>
 
         <div class="form-group">
             <div class="row">

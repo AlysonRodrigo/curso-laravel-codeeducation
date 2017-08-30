@@ -24,10 +24,10 @@ class ProductRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => 'required|min:5',
             'price' => 'required',
-            'featured' => 'required',
-            'recommend' => 'required'
+            'description' => 'required|min:5',
+            'tags' => 'required|unique:tags,name'
         ];
     }
 }
