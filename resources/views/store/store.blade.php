@@ -28,8 +28,8 @@
                 <div class="col-sm-6">
                     <div class="contactinfo">
                         <ul class="nav nav-pills">
-                            <li><a href="#"><i class="fa fa-phone"></i> (19) 5555-5555</a></li>
-                            <li><a href="#"><i class="fa fa-envelope"></i> atendimento@schoolofnet.com</a></li>
+                            <li><a href="#"><i class="fa fa-phone"></i> (83) 98196-8885</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> atendimento@cookiesoft.com.br</a></li>
                         </ul>
                     </div>
                 </div>

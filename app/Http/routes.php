@@ -37,4 +37,4 @@ Route::group(['prefix' => 'admin', 'where' => ['id' => '[0-9]+'], 'middleware' =
 
 });
 
-Route::get('/', "StoreController@index");
+Route::get('/',['as'  => 'home','uses' => 'StoreController@index']);
